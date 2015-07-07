@@ -2,23 +2,21 @@
 function printReceipt(inputs) {
   var num = 1;
   var products = [];
-  for(var i=0; i<inputs.length; ++i)
-  {
-    if(inputs[i] == inputs[i+1])
-    {
+  
+  for(var i=0; i<inputs.length; ++i) {
+    if(inputs[i] == inputs[i+1]) {
       num++;
     }
-    else
-    {
+    else {
       products.push(num);
       num = 1;
     }
   }
-  fun(products);
+
+  finalPrint(products);
 }
 
-function fun(products)
-{
+function finalPrint(products) {
   var str='***<没钱赚商店>收据***\n';
   var j=0;
   var k=0;
