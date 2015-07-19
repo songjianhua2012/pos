@@ -1,6 +1,5 @@
 //TODO: Please write code in this file.
 function printReceipt(inputs) {
-
   var products = loadAllItems();
   var productFree = loadPromotions();
   var productGive = [];
