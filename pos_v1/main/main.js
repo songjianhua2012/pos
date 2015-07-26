@@ -19,7 +19,7 @@ function printReceipt(inputs) {
 
 function findProduct(item,products) {
   for(var y = 0; y < products.length; y++) {
-    if(/*item === products[y].barcode*/comp(item,products[y].barcode)) {
+    if(comp(item,products[y].barcode)) {
       products[y].count += item.length == 10 ? 1 : parseInt(item[item.length-1]);
       return;
     }
@@ -27,36 +27,45 @@ function findProduct(item,products) {
 }
 
 function getFreeProduct(productFree,products,productGive) {
-  var flag = true;
-  var h = 0;
+
   for(var m = 0; m < productFree.length; m++) {
     switch (productFree[m].type) {
       case 'BUY_TWO_GET_ONE_FREE':
-        for(var n = 0; n < products.length; n++) {
-          for(var k = 0; k < productFree[m].barcodes.length; k++) {
-          if(products[n].count >= 2 && products[n].barcode === productFree[m].barcodes[k]) {
-            products[n].total = ((products[n].count - 1) * products[n].price).toFixed(2);
-            flag = true;
-            productGive[h] = products[n];
-            //productGive[h].count = 1;
-            h++;
-            break;
-          }
-          else {
-            flag = false;
-          //  products[n].total = (products[n].count * products[n].price).toFixed(2);
-          }
-        }
-        if(flag === false)
-        {
-          products[n].total = (products[n].count * products[n].price).toFixed(2);
-        }
-      }
+        findFreeProduct(products,productFree,productGive,m);
         break;
       default:
         break;
     }
     //console.log(productFree[m]);
+  }
+}
+
+function findFreeProduct(products,productFree,productGive,m) {
+  var h = 0;
+  var flag = true;
+  for(var n = 0; n < products.length; n++) {
+    for(var k = 0; k < productFree[m].barcodes.length; k++) {
+      if(products[n].count >= 2 && products[n].barcode === productFree[m].barcodes[k]) {
+        products[n].total = ((products[n].count - 1) * products[n].price).toFixed(2);
+        flag = true;
+        productGive[h] = products[n];
+    //productGive[h].count = 1;
+        h++;
+        break;
+      }
+      else {
+        flag = false;
+  //  products[n].total = (products[n].count * products[n].price).toFixed(2);
+      }
+    }
+    getSaveMoney(products[n],flag);
+  }
+}
+
+function getSaveMoney(itemA,flag) {
+  if(flag === false)
+  {
+    itemA.total = (itemA.count * itemA.price).toFixed(2);
   }
 }
 
